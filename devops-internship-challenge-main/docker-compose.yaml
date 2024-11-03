@@ -1,0 +1,53 @@
+# version: '3'
+
+# services:
+#   python-app:
+#     image: python-app
+#     container_name: python-app
+#     networks:
+#       - app-network
+#     ports:
+#       - "8000:8000"
+
+#   nginx:
+#     image: nginx-app
+#     container_name: nginx-app
+#     networks:
+#       - app-network
+#     ports:
+#       - "80:80"
+#     depends_on:
+#       - python-app
+
+# networks:
+#   app-network:
+#     driver: bridge
+
+version: '3.8'
+
+services:
+  python-app:
+    build:
+      context: ./Python  # Replace with the actual path to your Python app's Dockerfile
+      dockerfile: Dockerfile  # Ensure there's a Dockerfile in this path
+    container_name: python-app
+    networks:
+      - app-network
+    ports:
+      - "8000:8000"
+
+  nginx:
+    build:
+      context: ./nginx  # Replace with the actual path to your NGINX Dockerfile
+      dockerfile: Dockerfile  # Ensure there's a Dockerfile in this path
+    container_name: nginx-app
+    networks:
+      - app-network
+    ports:
+      - "80:80"
+    depends_on:
+      - python-app
+
+networks:
+  app-network:
+    driver: bridge
